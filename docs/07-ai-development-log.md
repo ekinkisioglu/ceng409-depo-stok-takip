@@ -41,3 +41,11 @@
 - **AI çıktısı:** `.gitignore`'daki `.env*` kuralına `.env.local.example` için istisna eklendi (şablon commit'lensin, gerçek `.env.local` asla commit'lenmesin); server client dosyasına güvenlik kuralını hatırlatan not eklendi.
 - **Ekip kararı:** Kabul edildi.
 - **Doğrulama:** `git status` ile `.env.local.example`'ın takip edildiği, `.env.local`'ın (henüz oluşturulmadıysa de) ignore listesinde kaldığı doğrulandı.
+
+## Kayıt 6 — "permission denied for table products" hatasının teşhisi
+
+- **Araç / amaç:** Claude — Ürün Arama ekranını canlı Supabase verisine bağladıktan sonra çıkan `permission denied for table products` hatasını teşhis etmek.
+- **İstem özeti:** Hata mesajı analiz edildi; RLS politikalarının (`0001_init.sql`) doğru kurulu olmasına rağmen hatanın devam etmesi, Postgres'te RLS'den önce gelen temel `GRANT` izninin eksik olduğunu gösteriyordu.
+- **AI çıktısı:** `0002_grants.sql` migration'ı önerildi — `anon`/`authenticated` rollerine ilgili tablolarda açık `grant select` izni veren ek bir script.
+- **Ekip kararı:** Script incelendi, Supabase SQL Editor'de çalıştırıldı.
+- **Doğrulama:** Çalıştırdıktan sonra `curl` ile Ürün Arama (`?q=vida` → P-1001 bulundu, `?q=zzzz` → "Ürün bulunamadı") ve Ürün Detay (`/urun/P-1001` → Depo A/Raf 3: 45 koli, Depo B/Raf 1: 12 koli ⚠ kritik uyarı) ekranları gerçek veriyle doğrulandı.
