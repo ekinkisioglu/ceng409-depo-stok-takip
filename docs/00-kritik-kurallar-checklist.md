@@ -5,16 +5,16 @@
 ## A. Kapsam ve Varsayımlar (Bölüm 3)
 
 **Kapsam içi — asgari, atlanamaz:**
-- [ ] Kullanıcı girişi + en az 2 rol (Depo Personeli, Depo Sorumlusu)
-- [ ] Ürün kartı + kod/ad ile arama (barkod/karekod **zorunlu değil**, isteğe bağlı)
-- [ ] Stok girişi, stok çıkışı
+- [ ] Kullanıcı girişi + en az 2 rol (Depo Personeli, Depo Sorumlusu) — *giriş çalışıyor, rol ayrımı Adım 4'te*
+- [x] Ürün kartı + kod/ad ile arama (barkod/karekod **zorunlu değil**, isteğe bağlı)
+- [x] Stok girişi, stok çıkışı
 - [ ] Depo/raf transferi
-- [ ] Güncel stok/konum sorgulama
-- [ ] Stok hareket geçmişi + işlemi yapan kullanıcı izi
-- [ ] En az 1 kritik stok seviyesi uyarı mekanizması
+- [x] Güncel stok/konum sorgulama
+- [ ] Stok hareket geçmişi + işlemi yapan kullanıcı izi — *veritabanında doğru kaydediliyor, geçmiş ekranı henüz bağlanmadı*
+- [x] En az 1 kritik stok seviyesi uyarı mekanizması
 - [ ] En az 1 sayım/düzeltme/stok farkı senaryosu
-- [ ] Mobil uyumlu arayüz + kalıcı veri saklama
-- [ ] İnternet üzerinden canlı erişim
+- [x] Mobil uyumlu arayüz (gerçek cihaz testi Adım 6'da) + kalıcı veri saklama
+- [ ] İnternet üzerinden canlı erişim — *Vercel'e henüz bağlanmadı*
 
 **Kapsam dışı — bunlara zaman HARCANMAYACAK:**
 - Muhasebe / tam ERP / satın alma entegrasyonu
@@ -25,25 +25,25 @@
 
 ## B. Çalışan Sistem ve Canlıya Alma Koşulları (Bölüm 6)
 
-- [ ] Uygulama telefon/tablet ekranında kullanılabilir
-- [ ] Gerçek, kalıcı veritabanı; kapat-aç sonrası veri korunuyor
-- [ ] En az 2 kullanıcı rolü + rol bazlı yetkilendirme fiilen çalışıyor
-- [ ] Stok girişi + çıkışı + transfer **uçtan uca** çalışıyor (demo edilebilir)
-- [ ] Kritik iş kuralları ve veri doğrulama kontrolleri uygulanmış
-- [ ] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış (sadece raporda değil!)
-- [ ] Sistem, öğretim elemanının **kendi cihazından** internet üzerinden erişebileceği canlı bir adreste
-- [ ] Canlı demo için çalışan test hesabı / erişim bilgisi hazır
-- [ ] Kaynak kod GitHub deposunda, öğretim elemanının erişimine açık
-- [ ] GitHub'da **en az 5 anlamlı commit** (final dosyayı tek seferde yüklemek YETERSİZ)
-- [ ] README mevcut: canlı bağlantı + kurulum/çalıştırma notu + kullanılan teknoloji + test hesabı
+- [ ] Uygulama telefon/tablet ekranında kullanılabilir — *mobil genişlikte tasarlandı, gerçek cihaz testi Adım 6'da*
+- [x] Gerçek, kalıcı veritabanı; kapat-aç sonrası veri korunuyor
+- [ ] En az 2 kullanıcı rolü + rol bazlı yetkilendirme fiilen çalışıyor — *Adım 4*
+- [ ] Stok girişi + çıkışı + transfer **uçtan uca** çalışıyor (demo edilebilir) — *giriş+çıkış tamam, transfer eksik*
+- [x] Kritik iş kuralları ve veri doğrulama kontrolleri uygulanmış (S2 yetersiz stok, oturum kontrolü — veritabanı tarafında)
+- [ ] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış (sadece raporda değil!) — *şu an S2 ve oturum kontrolü (S9 benzeri); Adım 5'te tamamlanacak*
+- [ ] Sistem, öğretim elemanının **kendi cihazından** internet üzerinden erişebileceği canlı bir adreste — *Vercel'e henüz bağlanmadı*
+- [x] Canlı demo için çalışan test hesabı / erişim bilgisi hazır (bkz. README)
+- [ ] Kaynak kod GitHub deposunda, öğretim elemanının erişimine açık — *repo var, öğretim elemanı henüz eklenmedi*
+- [x] GitHub'da **en az 5 anlamlı commit** (final dosyayı tek seferde yüklemek YETERSİZ) — şu an 13+ commit
+- [x] README mevcut: canlı bağlantı + kurulum/çalıştırma notu + kullanılan teknoloji + test hesabı
 
 ## C. Yol A Geliştirme Adımları (Bölüm 7.1)
 
-1. [ ] GitHub'da yeni proje deposu oluştur
-2. [ ] Önce minimum iskelet: giriş ekranı + ürün listesi + tek bir temel stok işlemi
-3. [ ] Veri modelini Supabase'de kur — **AI'nın önerdiği şemayı değil, bizim teslim ettiğimiz veri modelini** kullan (sıra önemli: önce veri modeli dokümanı, sonra şema)
-4. [ ] AI destekli editörde küçük görevlerle ilerle; her adımdan sonra çalıştır ve test et
-5. [ ] Her çalışan değişikliği anlamlı commit mesajıyla GitHub'a gönder
+1. [x] GitHub'da yeni proje deposu oluştur
+2. [x] Önce minimum iskelet: giriş ekranı + ürün listesi + tek bir temel stok işlemi
+3. [x] Veri modelini Supabase'de kur — **AI'nın önerdiği şemayı değil, bizim teslim ettiğimiz veri modelini** kullan (sıra önemli: önce veri modeli dokümanı, sonra şema)
+4. [x] AI destekli editörde küçük görevlerle ilerle; her adımdan sonra çalıştır ve test et
+5. [x] Her çalışan değişikliği anlamlı commit mesajıyla GitHub'a gönder
 6. [ ] GitHub deposunu Vercel'e bağla; her güncellemede canlı sürümün yeniden oluştuğunu kontrol et
 7. [ ] Son aşamada **gerçek telefondan** test et — ekran görüntüsüne değil canlı URL'ye göre doğrula
 
@@ -51,12 +51,12 @@
 
 | Adım | Hedef | Kontrol |
 |---|---|---|
-| 1 | İskelet | Canlı URL açılıyor, boş ana ekran + temel gezinme çalışıyor |
-| 2 | Veri | Ürün/stok verisi kalıcı veritabanından okunuyor |
-| 3 | İşlem | Stok girişi veya çıkışı uçtan uca çalışıyor |
-| 4 | Rol | İki kullanıcı rolünün erişim farkı uygulanıyor |
-| 5 | İstisna | En az 4 kötü/alternatif durum güvenli biçimde ele alınıyor |
-| 6 | Doğrulama | Mobil test, test senaryoları, README, canlı demo tamamlanıyor |
+| 1 | İskelet | ✅ Canlı URL açılıyor, boş ana ekran + temel gezinme çalışıyor (yerel; Vercel bağlantısı Adım 6) |
+| 2 | Veri | ✅ Ürün/stok verisi kalıcı veritabanından okunuyor |
+| 3 | İşlem | ✅ Stok girişi ve çıkışı uçtan uca çalışıyor (atomik, S2+S5 kontrollü) |
+| 4 | Rol | 🔄 Sırada — iki kullanıcı rolünün erişim farkı uygulanacak |
+| 5 | İstisna | ⏳ En az 4 kötü/alternatif durum güvenli biçimde ele alınacak |
+| 6 | Doğrulama | ⏳ Mobil test, test senaryoları, README, canlı demo tamamlanacak |
 
 **Önemli:** Her adım bir öncekini çalışır halde bırakmalı — "önce hepsini kodla sonra test et" YAKLAŞIMI KULLANILMAYACAK.
 

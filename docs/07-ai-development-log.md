@@ -49,3 +49,11 @@
 - **AI çıktısı:** `0002_grants.sql` migration'ı önerildi — `anon`/`authenticated` rollerine ilgili tablolarda açık `grant select` izni veren ek bir script.
 - **Ekip kararı:** Script incelendi, Supabase SQL Editor'de çalıştırıldı.
 - **Doğrulama:** Çalıştırdıktan sonra `curl` ile Ürün Arama (`?q=vida` → P-1001 bulundu, `?q=zzzz` → "Ürün bulunamadı") ve Ürün Detay (`/urun/P-1001` → Depo A/Raf 3: 45 koli, Depo B/Raf 1: 12 koli ⚠ kritik uyarı) ekranları gerçek veriyle doğrulandı.
+
+## Kayıt 7 — Atomik stok hareketi fonksiyonu ve giriş/yetki akışı (Adım 3 - İşlem)
+
+- **Araç / amaç:** Claude — Stok girişi/çıkışının uçtan uca, eşzamanlılık (S5) ve yetersiz stok (S2) senaryolarına karşı güvenli şekilde çalışmasını sağlamak.
+- **İstem özeti:** `IOG4`/`IK1` gereksinimleri (iş kuralı kontrolü veritabanı tarafında, negatif stok asla oluşmaz) temel alınarak, satır kilidi (`for update`) kullanan tek bir Postgres fonksiyonu (`kayit_stok_hareketi`) tasarlanması istendi; ayrıca Next.js 16'da `middleware.ts`'in `proxy.ts` olarak yeniden adlandırıldığı tespit edilip buna göre giriş koruması yazıldı.
+- **AI çıktısı:** `security definer` + `auth.uid()` kontrolü + `for update` satır kilidi içeren SQL fonksiyonu; Supabase Auth ile gerçek giriş/kayıt ekranları; `src/proxy.ts` ile girişsiz kullanıcıların korumalı rotalara erişiminin engellenmesi.
+- **Ekip kararı:** Kabul edildi. Rol bazlı kısıtlama (hangi depoya kimin erişebileceği) kasıtlı olarak Adım 4'e bırakıldı — şu an herhangi bir giriş yapmış kullanıcı her depoda işlem yapabiliyor.
+- **Doğrulama:** Gerçek bir test hesabıyla (bkz. README) Supabase REST API üzerinden uçtan uca test edildi: (1) GIRIS 8→13, (2) CIKIS 13→10, (3) S2 senaryosu — 999999 birim çıkış denemesi "Yetersiz stok: mevcut 10, girilen 999999" ile reddedildi, (4) oturumsuz çağrı "Bu işlem için giriş yapmış olmanız gerekir" ile reddedildi, (5) `stock_movements` tablosunda yalnızca başarılı 2 işlemin append-only kaydedildiği, başarısız denemelerin iz bırakmadığı doğrulandı. Ayrıca `src/proxy.ts` için girişsiz `/ana-sayfa` isteğinin HTTP 307 ile `/`'ye yönlendirildiği `curl` ile teyit edildi.
