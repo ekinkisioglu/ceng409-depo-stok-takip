@@ -57,3 +57,11 @@
 - **AI çıktısı:** `security definer` + `auth.uid()` kontrolü + `for update` satır kilidi içeren SQL fonksiyonu; Supabase Auth ile gerçek giriş/kayıt ekranları; `src/proxy.ts` ile girişsiz kullanıcıların korumalı rotalara erişiminin engellenmesi.
 - **Ekip kararı:** Kabul edildi. Rol bazlı kısıtlama (hangi depoya kimin erişebileceği) kasıtlı olarak Adım 4'e bırakıldı — şu an herhangi bir giriş yapmış kullanıcı her depoda işlem yapabiliyor.
 - **Doğrulama:** Gerçek bir test hesabıyla (bkz. README) Supabase REST API üzerinden uçtan uca test edildi: (1) GIRIS 8→13, (2) CIKIS 13→10, (3) S2 senaryosu — 999999 birim çıkış denemesi "Yetersiz stok: mevcut 10, girilen 999999" ile reddedildi, (4) oturumsuz çağrı "Bu işlem için giriş yapmış olmanız gerekir" ile reddedildi, (5) `stock_movements` tablosunda yalnızca başarılı 2 işlemin append-only kaydedildiği, başarısız denemelerin iz bırakmadığı doğrulandı. Ayrıca `src/proxy.ts` için girişsiz `/ana-sayfa` isteğinin HTTP 307 ile `/`'ye yönlendirildiği `curl` ile teyit edildi.
+
+## Kayıt 8 — Vercel'e canlıya alma
+
+- **Araç / amaç:** Claude — projeyi internet üzerinden erişilebilir canlı bir adrese taşımak (checklist madde B).
+- **İstem özeti:** Önce `vercel deploy --temporary` ile anonim/geçici bir deployment denendi; bu deployment'ın Vercel'in bot koruması (`x-vercel-mitigated: deny`) tarafından `curl` için (muhtemelen tarayıcı dışı istekler için genel olarak) engellendiği görüldü. Bunun üzerine kullanıcıdan `vercel login` ile kendi hesabına giriş yapması istendi; sonrasında proje gerçek bir Vercel projesine (`stockx4/ceng409-depo-stok-takip`) bağlanıp production'a deploy edildi.
+- **AI çıktısı:** Canlı URL: `https://ceng409-depo-stok-takip.vercel.app`. GitHub ile otomatik deploy bağlantısı (`vercel git connect`) "GitHub Login Connection eksik" hatasıyla başarısız oldu — bu adımın kullanıcı tarafından vercel.com hesap ayarlarından tamamlanması gerekiyor.
+- **Ekip kararı:** Kabul edildi; GitHub bağlantısı tamamlanana kadar her önemli push sonrası `vercel deploy --prod` manuel çalıştırılacak.
+- **Doğrulama:** `curl` ile production alias URL'inin (Vercel girişi istemeden) açıldığı, girişsiz `/ana-sayfa` ve `/urun-ara` isteklerinin 307 ile `/`'ye yönlendirildiği, ham (alias olmayan) deployment URL'inin ise Vercel'in kendi koruması nedeniyle 302 döndürdüğü doğrulandı.

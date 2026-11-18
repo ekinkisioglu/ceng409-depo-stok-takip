@@ -14,7 +14,7 @@
 - [x] En az 1 kritik stok seviyesi uyarı mekanizması
 - [ ] En az 1 sayım/düzeltme/stok farkı senaryosu
 - [x] Mobil uyumlu arayüz (gerçek cihaz testi Adım 6'da) + kalıcı veri saklama
-- [ ] İnternet üzerinden canlı erişim — *Vercel'e henüz bağlanmadı*
+- [x] İnternet üzerinden canlı erişim — https://ceng409-depo-stok-takip.vercel.app
 
 **Kapsam dışı — bunlara zaman HARCANMAYACAK:**
 - Muhasebe / tam ERP / satın alma entegrasyonu
@@ -31,7 +31,7 @@
 - [ ] Stok girişi + çıkışı + transfer **uçtan uca** çalışıyor (demo edilebilir) — *giriş+çıkış tamam, transfer eksik*
 - [x] Kritik iş kuralları ve veri doğrulama kontrolleri uygulanmış (S2 yetersiz stok, oturum kontrolü — veritabanı tarafında)
 - [ ] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış (sadece raporda değil!) — *şu an S2 ve oturum kontrolü (S9 benzeri); Adım 5'te tamamlanacak*
-- [ ] Sistem, öğretim elemanının **kendi cihazından** internet üzerinden erişebileceği canlı bir adreste — *Vercel'e henüz bağlanmadı*
+- [x] Sistem, öğretim elemanının **kendi cihazından** internet üzerinden erişebileceği canlı bir adreste — https://ceng409-depo-stok-takip.vercel.app
 - [x] Canlı demo için çalışan test hesabı / erişim bilgisi hazır (bkz. README)
 - [ ] Kaynak kod GitHub deposunda, öğretim elemanının erişimine açık — *repo var, öğretim elemanı henüz eklenmedi*
 - [x] GitHub'da **en az 5 anlamlı commit** (final dosyayı tek seferde yüklemek YETERSİZ) — şu an 13+ commit
@@ -44,7 +44,7 @@
 3. [x] Veri modelini Supabase'de kur — **AI'nın önerdiği şemayı değil, bizim teslim ettiğimiz veri modelini** kullan (sıra önemli: önce veri modeli dokümanı, sonra şema)
 4. [x] AI destekli editörde küçük görevlerle ilerle; her adımdan sonra çalıştır ve test et
 5. [x] Her çalışan değişikliği anlamlı commit mesajıyla GitHub'a gönder
-6. [ ] GitHub deposunu Vercel'e bağla; her güncellemede canlı sürümün yeniden oluştuğunu kontrol et
+6. [ ] GitHub deposunu Vercel'e bağla; her güncellemede canlı sürümün yeniden oluştuğunu kontrol et — *deploy manuel olarak canlı, otomatik git bağlantısı için kullanıcının vercel.com'da GitHub'ı "Login Connection" olarak eklemesi gerekiyor*
 7. [ ] Son aşamada **gerçek telefondan** test et — ekran görüntüsüne değil canlı URL'ye göre doğrula
 
 ## D. Geliştirme Sırası (Bölüm 7.4) — bu sırayı atlama

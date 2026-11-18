@@ -2,7 +2,7 @@
 
 Pamukkale Üniversitesi Endüstri Mühendisliği, CENG 409 Sistem Analizi ve Tasarımı dönem projesi.
 
-- **Canlı uygulama:** _(eklenecek — Vercel'e bağlandığında)_
+- **Canlı uygulama:** https://ceng409-depo-stok-takip.vercel.app
 - **Test hesabı:** `depo.test.ceng409@mailinator.com` / `w63mehh1EIScU2!1` (tamamen sentetik, rol: depo_personeli)
 - **Kullanılan teknolojiler:** Next.js (App Router, TypeScript, Tailwind CSS) · Supabase (veritabanı + auth) · Vercel (canlı yayın)
 
