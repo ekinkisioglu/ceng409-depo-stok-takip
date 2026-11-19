@@ -33,7 +33,7 @@
 - [x] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış — S1 (ürün bulunamadı), S2 (yetersiz stok), S5 (eşzamanlılık/satır kilidi), S7 (sayım farkı/onay), S8 (transfer beklemede/iptal), S9 (yetkisiz/depo dışı erişim), S11 (kritik stok uyarısı) — 7 senaryo, istenen 4'ü aşıyor
 - [x] Sistem, öğretim elemanının **kendi cihazından** internet üzerinden erişebileceği canlı bir adreste — https://ceng409-depo-stok-takip.vercel.app
 - [x] Canlı demo için çalışan test hesabı / erişim bilgisi hazır (bkz. README)
-- [ ] Kaynak kod GitHub deposunda, öğretim elemanının erişimine açık — *repo var, öğretim elemanı henüz eklenmedi*
+- [x] Kaynak kod GitHub deposunda, öğretim elemanının erişimine açık — repo **public**, herkes erişebilir
 - [x] GitHub'da **en az 5 anlamlı commit** (final dosyayı tek seferde yüklemek YETERSİZ) — şu an 13+ commit
 - [x] README mevcut: canlı bağlantı + kurulum/çalıştırma notu + kullanılan teknoloji + test hesabı
 
