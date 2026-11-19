@@ -10,7 +10,7 @@ Pamukkale Üniversitesi Endüstri Mühendisliği, CENG 409 Sistem Analizi ve Tas
 
 ## Durum
 
-Adım 3 (İşlem) tamamlandı: giriş/kayıt, ürün arama, ürün detay, stok girişi ve stok çıkışı gerçek Supabase verisiyle uçtan uca çalışıyor (atomik veritabanı fonksiyonu ile, eşzamanlılık ve yetersiz stok kontrolleri dahil). Geliştirme sırası için bkz. `docs/00-kritik-kurallar-checklist.md`.
+Adım 1-5 tamamlandı: giriş/kayıt, ürün arama/detay, stok girişi/çıkışı/transfer, sayım/düzeltme onayı, rol+depo bazlı yetkilendirme, hareket geçmişi ve Yönetim Paneli gerçek Supabase verisiyle uçtan uca çalışıyor. 7 kötü/alternatif durum (S1,S2,S5,S7,S8,S9,S11) güvenli biçimde ele alınmış durumda. Sırada Adım 6 (Doğrulama: mobil test, test senaryoları tablosu) var. Geliştirme sırası için bkz. `docs/00-kritik-kurallar-checklist.md`.
 
 ## Kurulum / Çalıştırma
 
@@ -20,7 +20,7 @@ cp .env.local.example .env.local   # Supabase Project URL + anon key'i doldurun
 npm run dev
 ```
 
-Veritabanı şeması için `supabase/migrations/` klasöründeki SQL dosyalarını sırasıyla (0001 → 0002 → 0003) Supabase SQL Editor'de çalıştırın, ardından `supabase/seed.sql` ile örnek veri ekleyin.
+Veritabanı şeması için `supabase/migrations/` klasöründeki SQL dosyalarını sırasıyla (0001 → 0006) Supabase SQL Editor'de çalıştırın, ardından `supabase/seed.sql` ile örnek veri ekleyin.
 
 > `.env.local` dosyasına **asla** Supabase service role key veya başka bir tam yetkili gizli anahtar konulmaz.
 

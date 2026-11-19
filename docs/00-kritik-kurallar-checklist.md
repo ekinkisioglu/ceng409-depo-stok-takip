@@ -8,11 +8,11 @@
 - [x] Kullanıcı girişi + en az 2 rol (Depo Personeli, Depo Sorumlusu) — rol ayrımı ve depo bazlı yetki fiilen çalışıyor
 - [x] Ürün kartı + kod/ad ile arama (barkod/karekod **zorunlu değil**, isteğe bağlı)
 - [x] Stok girişi, stok çıkışı
-- [ ] Depo/raf transferi
+- [x] Depo/raf transferi (başlat/teslim al/iptal, S8 senaryosu dahil)
 - [x] Güncel stok/konum sorgulama
-- [ ] Stok hareket geçmişi + işlemi yapan kullanıcı izi — *veritabanında doğru kaydediliyor, geçmiş ekranı henüz bağlanmadı*
+- [x] Stok hareket geçmişi + işlemi yapan kullanıcı izi (filtre + rol bazlı görünürlük)
 - [x] En az 1 kritik stok seviyesi uyarı mekanizması
-- [ ] En az 1 sayım/düzeltme/stok farkı senaryosu
+- [x] En az 1 sayım/düzeltme/stok farkı senaryosu (S7 — onay akışıyla)
 - [x] Mobil uyumlu arayüz (gerçek cihaz testi Adım 6'da) + kalıcı veri saklama
 - [x] İnternet üzerinden canlı erişim — https://ceng409-depo-stok-takip.vercel.app
 
@@ -28,9 +28,9 @@
 - [ ] Uygulama telefon/tablet ekranında kullanılabilir — *mobil genişlikte tasarlandı, gerçek cihaz testi Adım 6'da*
 - [x] Gerçek, kalıcı veritabanı; kapat-aç sonrası veri korunuyor
 - [x] En az 2 kullanıcı rolü + rol bazlı yetkilendirme fiilen çalışıyor (2 test hesabıyla doğrulandı: canlıda ve veritabanı seviyesinde)
-- [ ] Stok girişi + çıkışı + transfer **uçtan uca** çalışıyor (demo edilebilir) — *giriş+çıkış tamam, transfer eksik*
-- [x] Kritik iş kuralları ve veri doğrulama kontrolleri uygulanmış (S2 yetersiz stok, oturum kontrolü — veritabanı tarafında)
-- [ ] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış (sadece raporda değil!) — *şu an S2 ve oturum kontrolü (S9 benzeri); Adım 5'te tamamlanacak*
+- [x] Stok girişi + çıkışı + transfer **uçtan uca** çalışıyor (demo edilebilir)
+- [x] Kritik iş kuralları ve veri doğrulama kontrolleri uygulanmış (S2, S5, S7, S8, S9, S11 — veritabanı tarafında)
+- [x] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış — S1 (ürün bulunamadı), S2 (yetersiz stok), S5 (eşzamanlılık/satır kilidi), S7 (sayım farkı/onay), S8 (transfer beklemede/iptal), S9 (yetkisiz/depo dışı erişim), S11 (kritik stok uyarısı) — 7 senaryo, istenen 4'ü aşıyor
 - [x] Sistem, öğretim elemanının **kendi cihazından** internet üzerinden erişebileceği canlı bir adreste — https://ceng409-depo-stok-takip.vercel.app
 - [x] Canlı demo için çalışan test hesabı / erişim bilgisi hazır (bkz. README)
 - [ ] Kaynak kod GitHub deposunda, öğretim elemanının erişimine açık — *repo var, öğretim elemanı henüz eklenmedi*
@@ -55,8 +55,8 @@
 | 2 | Veri | ✅ Ürün/stok verisi kalıcı veritabanından okunuyor |
 | 3 | İşlem | ✅ Stok girişi ve çıkışı uçtan uca çalışıyor (atomik, S2+S5 kontrollü) |
 | 4 | Rol | ✅ İki kullanıcı rolünün erişim farkı (depo bazlı + Yönetim Paneli) uygulandı |
-| 5 | İstisna | ⏳ En az 4 kötü/alternatif durum güvenli biçimde ele alınacak |
-| 6 | Doğrulama | ⏳ Mobil test, test senaryoları, README, canlı demo tamamlanacak |
+| 5 | İstisna | ✅ 7 kötü/alternatif durum güvenli biçimde ele alındı (S1,S2,S5,S7,S8,S9,S11) |
+| 6 | Doğrulama | 🔄 Sırada — mobil test, test senaryoları tablosu, son kontroller |
 
 **Önemli:** Her adım bir öncekini çalışır halde bırakmalı — "önce hepsini kodla sonra test et" YAKLAŞIMI KULLANILMAYACAK.
 
@@ -80,7 +80,7 @@
 - [x] Test hesabı çalışıyor; en az 2 rolün yetkileri gerçekten farklı
 - [ ] Stok giriş/çıkış/transfer kalıcı veritabanına yazılıyor
 - [ ] Uygulama kapat-aç sonrası veri korunuyor
-- [ ] En az 4 kötü/alternatif durum canlı uygulamada gösterilebiliyor
+- [x] En az 4 kötü/alternatif durum canlı uygulamada gösterilebiliyor (S1,S2,S5,S7,S8,S9,S11)
 - [ ] En az 8 test senaryosunun beklenen/gerçekleşen sonucu raporda var
 - [ ] GitHub deposunda veya istemci kodunda gizli/secret/tam yetkili anahtar YOK
 - [ ] AI Development Log en az 5 önemli etkileşimi ve ekip doğrulamasını içeriyor
