@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { ComboBox } from "@/components/combo-box";
 import { createClient } from "@/lib/supabase/client";
+import type { Konum } from "@/lib/referans-veri";
 
 type FormAlanlari = {
   urun_kodu: string;
@@ -11,11 +13,19 @@ type FormAlanlari = {
   not: string;
 };
 
+type Props = {
+  urunKoduBaslangic?: string;
+  urunler: { code: string; name: string }[];
+  depolar: { code: string; name: string }[];
+  konumlar: Konum[];
+};
+
 export function StokCikisFormu({
   urunKoduBaslangic = "",
-}: {
-  urunKoduBaslangic?: string;
-}) {
+  urunler,
+  depolar,
+  konumlar,
+}: Props) {
   const bosForm: FormAlanlari = {
     urun_kodu: urunKoduBaslangic,
     depo_kodu: "",
@@ -30,6 +40,24 @@ export function StokCikisFormu({
   const [hata, setHata] = useState<string | null>(null);
   const [basari, setBasari] = useState<string | null>(null);
   const [yukleniyor, setYukleniyor] = useState(false);
+
+  const urunSecenekleri = useMemo(
+    () => urunler.map((u) => ({ value: u.code, label: `${u.code} — ${u.name}` })),
+    [urunler],
+  );
+  const depoSecenekleri = useMemo(
+    () => depolar.map((d) => ({ value: d.code, label: `${d.code} — ${d.name}` })),
+    [depolar],
+  );
+  const rafSecenekleri = useMemo(() => {
+    const kaynak = form.depo_kodu
+      ? konumlar.filter((k) => k.depo_kodu === form.depo_kodu)
+      : konumlar;
+    return kaynak.map((k) => ({
+      value: k.code,
+      label: form.depo_kodu ? `${k.code} — ${k.name}` : `${k.depo_kodu}/${k.code} — ${k.name}`,
+    }));
+  }, [konumlar, form.depo_kodu]);
 
   function alanDegisti(alan: keyof FormAlanlari, deger: string) {
     setForm((f) => ({ ...f, [alan]: deger }));
@@ -82,35 +110,32 @@ export function StokCikisFormu({
     <form onSubmit={handleDevamEt} className="flex flex-col gap-3">
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Ürün kodu
-        <input
-          type="text"
+        <ComboBox
+          value={form.urun_kodu}
+          onChange={(v) => alanDegisti("urun_kodu", v)}
+          secenekler={urunSecenekleri}
           placeholder="P-1001"
           required
-          value={form.urun_kodu}
-          onChange={(e) => alanDegisti("urun_kodu", e.target.value)}
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Kaynak depo kodu
-        <input
-          type="text"
+        <ComboBox
+          value={form.depo_kodu}
+          onChange={(v) => alanDegisti("depo_kodu", v)}
+          secenekler={depoSecenekleri}
           placeholder="DEPO-A"
           required
-          value={form.depo_kodu}
-          onChange={(e) => alanDegisti("depo_kodu", e.target.value)}
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Kaynak raf kodu
-        <input
-          type="text"
+        <ComboBox
+          value={form.raf_kodu}
+          onChange={(v) => alanDegisti("raf_kodu", v)}
+          secenekler={rafSecenekleri}
           placeholder="RAF-3"
           required
-          value={form.raf_kodu}
-          onChange={(e) => alanDegisti("raf_kodu", e.target.value)}
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">

@@ -1,18 +1,84 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ComboBox } from "@/components/combo-box";
 import { createClient } from "@/lib/supabase/client";
+import type { Konum } from "@/lib/referans-veri";
+
+type FormAlanlari = {
+  urun_kodu: string;
+  kaynak_depo: string;
+  kaynak_raf: string;
+  hedef_depo: string;
+  hedef_raf: string;
+  miktar: string;
+  not: string;
+};
+
+type Props = {
+  urunKoduBaslangic?: string;
+  urunler: { code: string; name: string }[];
+  depolar: { code: string; name: string }[];
+  konumlar: Konum[];
+};
 
 export function TransferForm({
   urunKoduBaslangic = "",
-}: {
-  urunKoduBaslangic?: string;
-}) {
+  urunler,
+  depolar,
+  konumlar,
+}: Props) {
   const router = useRouter();
+  const bosForm: FormAlanlari = {
+    urun_kodu: urunKoduBaslangic,
+    kaynak_depo: "",
+    kaynak_raf: "",
+    hedef_depo: "",
+    hedef_raf: "",
+    miktar: "",
+    not: "",
+  };
+  const [form, setForm] = useState<FormAlanlari>(bosForm);
   const [hata, setHata] = useState<string | null>(null);
   const [basari, setBasari] = useState<string | null>(null);
   const [yukleniyor, setYukleniyor] = useState(false);
+
+  const urunSecenekleri = useMemo(
+    () => urunler.map((u) => ({ value: u.code, label: `${u.code} — ${u.name}` })),
+    [urunler],
+  );
+  const depoSecenekleri = useMemo(
+    () => depolar.map((d) => ({ value: d.code, label: `${d.code} — ${d.name}` })),
+    [depolar],
+  );
+
+  const kaynakRafSecenekleri = useMemo(() => {
+    const kaynak = form.kaynak_depo
+      ? konumlar.filter((k) => k.depo_kodu === form.kaynak_depo)
+      : konumlar;
+    return kaynak.map((k) => ({
+      value: k.code,
+      label: form.kaynak_depo
+        ? `${k.code} — ${k.name}`
+        : `${k.depo_kodu}/${k.code} — ${k.name}`,
+    }));
+  }, [konumlar, form.kaynak_depo]);
+  const hedefRafSecenekleri = useMemo(() => {
+    const kaynak = form.hedef_depo
+      ? konumlar.filter((k) => k.depo_kodu === form.hedef_depo)
+      : konumlar;
+    return kaynak.map((k) => ({
+      value: k.code,
+      label: form.hedef_depo
+        ? `${k.code} — ${k.name}`
+        : `${k.depo_kodu}/${k.code} — ${k.name}`,
+    }));
+  }, [konumlar, form.hedef_depo]);
+
+  function alanDegisti(alan: keyof FormAlanlari, deger: string) {
+    setForm((f) => ({ ...f, [alan]: deger }));
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,17 +86,16 @@ export function TransferForm({
     setBasari(null);
     setYukleniyor(true);
 
-    const form = new FormData(e.currentTarget);
     const supabase = createClient();
 
     const { error } = await supabase.rpc("baslat_transfer", {
-      p_product_code: String(form.get("urun_kodu") ?? "").trim(),
-      p_quantity: Number(form.get("miktar")),
-      p_src_warehouse_code: String(form.get("kaynak_depo") ?? "").trim(),
-      p_src_location_code: String(form.get("kaynak_raf") ?? "").trim(),
-      p_dst_warehouse_code: String(form.get("hedef_depo") ?? "").trim(),
-      p_dst_location_code: String(form.get("hedef_raf") ?? "").trim(),
-      p_note: String(form.get("not") ?? "") || null,
+      p_product_code: form.urun_kodu.trim(),
+      p_quantity: Number(form.miktar),
+      p_src_warehouse_code: form.kaynak_depo.trim(),
+      p_src_location_code: form.kaynak_raf.trim(),
+      p_dst_warehouse_code: form.hedef_depo.trim(),
+      p_dst_location_code: form.hedef_raf.trim(),
+      p_note: form.not || null,
     });
 
     setYukleniyor(false);
@@ -41,7 +106,7 @@ export function TransferForm({
     }
 
     setBasari("Transfer başlatıldı, hedef depo teslim almayı bekliyor.");
-    e.currentTarget.reset();
+    setForm(bosForm);
     router.refresh();
   }
 
@@ -49,63 +114,63 @@ export function TransferForm({
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Ürün kodu
-        <input
-          type="text"
-          name="urun_kodu"
+        <ComboBox
+          value={form.urun_kodu}
+          onChange={(v) => alanDegisti("urun_kodu", v)}
+          secenekler={urunSecenekleri}
           placeholder="P-1001"
-          defaultValue={urunKoduBaslangic}
           required
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Kaynak depo kodu
-        <input
-          type="text"
-          name="kaynak_depo"
+        <ComboBox
+          value={form.kaynak_depo}
+          onChange={(v) => alanDegisti("kaynak_depo", v)}
+          secenekler={depoSecenekleri}
           placeholder="DEPO-A"
           required
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Kaynak raf kodu
-        <input
-          type="text"
-          name="kaynak_raf"
+        <ComboBox
+          value={form.kaynak_raf}
+          onChange={(v) => alanDegisti("kaynak_raf", v)}
+          secenekler={kaynakRafSecenekleri}
           placeholder="RAF-3"
           required
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Hedef depo kodu
-        <input
-          type="text"
-          name="hedef_depo"
+        <ComboBox
+          value={form.hedef_depo}
+          onChange={(v) => alanDegisti("hedef_depo", v)}
+          secenekler={depoSecenekleri}
           placeholder="DEPO-B"
           required
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Hedef raf kodu
-        <input
-          type="text"
-          name="hedef_raf"
+        <ComboBox
+          value={form.hedef_raf}
+          onChange={(v) => alanDegisti("hedef_raf", v)}
+          secenekler={hedefRafSecenekleri}
           placeholder="RAF-1"
           required
-          className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
       <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
         Miktar
         <input
           type="number"
-          name="miktar"
           min={0.01}
           step="any"
           required
+          value={form.miktar}
+          onChange={(e) => alanDegisti("miktar", e.target.value)}
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>
@@ -113,7 +178,8 @@ export function TransferForm({
         Not (opsiyonel)
         <input
           type="text"
-          name="not"
+          value={form.not}
+          onChange={(e) => alanDegisti("not", e.target.value)}
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
       </label>

@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/app-shell";
 import { BekleyenTransferSatiri } from "@/components/bekleyen-transfer-satiri";
 import { TransferForm } from "@/components/transfer-form";
+import { referansVerileriGetir } from "@/lib/referans-veri";
 import { createClient } from "@/lib/supabase/server";
 
 type BekleyenTransfer = {
@@ -20,6 +21,7 @@ type BekleyenTransfer = {
 export default async function TransferPage(props: PageProps<"/transfer">) {
   const { urun } = await props.searchParams;
   const supabase = await createClient();
+  const { urunler, depolar, konumlar } = await referansVerileriGetir();
 
   const { data } = await supabase
     .from("stock_movements")
@@ -34,7 +36,12 @@ export default async function TransferPage(props: PageProps<"/transfer">) {
 
   return (
     <AppShell title="Transfer" backHref="/ana-sayfa">
-      <TransferForm urunKoduBaslangic={typeof urun === "string" ? urun : ""} />
+      <TransferForm
+        urunKoduBaslangic={typeof urun === "string" ? urun : ""}
+        urunler={urunler}
+        depolar={depolar}
+        konumlar={konumlar}
+      />
 
       <h2 className="text-sm font-semibold text-zinc-700">
         Bekleyen Transferler
