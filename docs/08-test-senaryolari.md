@@ -23,6 +23,8 @@
 | T17 | Normal (S8) | Transfer tam akışı | DEPO-A/RAF-3 → DEPO-B/RAF-1, 5 birim, başlat + Sorumlu teslim alır | Kaynak azalır, transfer "beklemede" olur, teslim alınca hedef artar | Kaynak 46→41, teslim sonrası hedef 13→18, durum "tamamlandi" | ✅ |
 | T18 | Kötü durum (rol) | Depo Personeli, Yönetim Paneli'ne erişim | Personel oturumuyla `/yonetim` | Erişim engellenir, `/ana-sayfa`'ya yönlendirilir | HTTP 307 → `/ana-sayfa` (hem yerelde hem canlıda) | ✅ |
 | T19 | Normal (rol) | Depo Sorumlusu, Yönetim Paneli'ne erişim | Sorumlu oturumuyla `/yonetim` | Sayfa açılır, gerçek veriler gösterilir | HTTP 200, kritik stok/düzeltme/transfer sayıları doğru | ✅ |
+| T20 | Kötü durum (S3) | Aynı istek, aynı idempotency anahtarıyla iki kez gönderiliyor | P-1004 GIRIS 5 birim, aynı anahtarla 2 kez | İkinci istek yeni hareket oluşturmamalı, aynı sonucu döndürmeli | İki çağrı da "5" döndürdü (10 değil); `stock_movements`'ta tek kayıt oluştu | ✅ |
+| T21 | Normal (S6) | Stok çıkışı onay/özet ekranı | Form doldurulup "Devam Et" tıklanıyor | Göndermeden önce özet ekranı gösterilmeli | Canlı sitede "Lütfen kontrol edin" ekranı + Onayla/Vazgeç butonları doğrulandı | ✅ |
 
 ## Notlar
 

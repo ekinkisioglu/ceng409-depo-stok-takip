@@ -97,3 +97,11 @@
 - **AI çıktısı:** `/urun-ekle` sayfası (yalnızca Depo Sorumlusu, `proxy.ts`'e eklenen rota koruması ile), Yönetim Paneli'nden link, `supabase/migrations/0007_urun_ekle.sql`.
 - **Ekip kararı:** Kabul edildi.
 - **Doğrulama:** REST üzerinden üç senaryo: Depo Personeli reddedildi, Depo Sorumlusu başarılı şekilde P-1004 ekledi, aynı kodun tekrar eklenmesi reddedildi. Yeni ürünün Ürün Ara ekranında göründüğü ve canlı sitede `/urun-ekle` rotasının rol bazlı doğru şekilde (Personel: 307, Sorumlu: 200) korunduğu doğrulandı.
+
+## Kayıt 13 — S3 (çift kayıt) ve S6 (yanlış ürün/depo) senaryolarının tam olarak kapatılması
+
+- **Araç / amaç:** Claude — rapor hazırlığı sırasında "çift gönderim" ve "yanlış ürün/depo seçimi" senaryolarının yalnızca kısmen ele alındığı fark edildi; ikisini de tam duruma getirmek istendi.
+- **İstem özeti:** S3 için sunucu taraflı bir idempotency mekanizması, S6 için stok giriş/çıkış formlarına göndermeden önce bir onay/özet ekranı eklenmesi istendi.
+- **AI çıktısı:** `stock_movements` tablosuna `idempotency_key` (uuid) kolonu ve `(user_id, idempotency_key)` üzerinde kısmi benzersiz indeks eklendi; `kayit_stok_hareketi` fonksiyonu bu anahtarı kontrol edip aynı anahtarla ikinci istekte yeni hareket oluşturmadan mevcut sonucu döndürecek şekilde güncellendi (eski 6 parametreli imza `drop function` ile kaldırılıp PostgREST belirsizliği önlendi). Stok Girişi/Çıkışı sayfaları, istemci tarafında bir kerelik anahtar üreten ve göndermeden önce "Lütfen kontrol edin" özet ekranı gösteren iki adımlı bir forma dönüştürüldü.
+- **Ekip kararı:** Kabul edildi.
+- **Doğrulama:** Aynı idempotency anahtarıyla art arda gönderilen iki istek test edildi — ikisi de aynı sonucu (5) döndürdü, `stock_movements` tablosunda yalnızca tek bir kayıt oluştu. Eski (anahtarsız) çağrı imzasının artık var olmadığı, yeni imzanın parametre ipucuyla doğru önerildiği doğrulandı. Onay ekranının canlı sitede (`/stok-cikis`) "Devam Et" butonuyla birlikte göründüğü teyit edildi.
