@@ -21,7 +21,7 @@ const TUR_ETIKETI: Record<string, string> = {
 };
 
 export default async function GecmisPage(props: PageProps<"/gecmis">) {
-  const { urun, depo } = await props.searchParams;
+  const { urun, depo, tur } = await props.searchParams;
   const supabase = await createClient();
 
   let sorgu = supabase
@@ -40,6 +40,10 @@ export default async function GecmisPage(props: PageProps<"/gecmis">) {
     sorgu = sorgu.in("product_id", (urunler ?? []).map((u) => u.id));
   }
 
+  if (typeof tur === "string" && tur.trim()) {
+    sorgu = sorgu.eq("movement_type", tur.trim());
+  }
+
   const { data, error } = await sorgu;
   const hareketler = (data ?? []) as unknown as Hareket[];
 
@@ -54,27 +58,42 @@ export default async function GecmisPage(props: PageProps<"/gecmis">) {
 
   return (
     <AppShell title="Stok Sorgula / Geçmiş" backHref="/ana-sayfa">
-      <form className="flex gap-2">
-        <input
-          type="text"
-          name="urun"
-          placeholder="Ürün kodu filtrele"
-          defaultValue={typeof urun === "string" ? urun : ""}
-          className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
-        <input
-          type="text"
-          name="depo"
-          placeholder="Depo kodu filtrele"
-          defaultValue={typeof depo === "string" ? depo : ""}
-          className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
-        />
-        <button
-          type="submit"
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white"
-        >
-          Filtrele
-        </button>
+      <form className="flex flex-col gap-2">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            name="urun"
+            placeholder="Ürün kodu filtrele"
+            defaultValue={typeof urun === "string" ? urun : ""}
+            className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
+          />
+          <input
+            type="text"
+            name="depo"
+            placeholder="Depo kodu filtrele"
+            defaultValue={typeof depo === "string" ? depo : ""}
+            className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
+          />
+        </div>
+        <div className="flex gap-2">
+          <select
+            name="tur"
+            defaultValue={typeof tur === "string" ? tur : ""}
+            className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
+          >
+            <option value="">Tüm türler</option>
+            <option value="GIRIS">Giriş</option>
+            <option value="CIKIS">Çıkış</option>
+            <option value="TRANSFER">Transfer</option>
+            <option value="SAYIM">Sayım</option>
+          </select>
+          <button
+            type="submit"
+            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white"
+          >
+            Filtrele
+          </button>
+        </div>
       </form>
 
       {error ? <p className="text-sm text-red-600">Hata: {error.message}</p> : null}
