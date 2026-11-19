@@ -30,17 +30,29 @@ export function UrunAramaKutusu({ urunler }: { urunler: Urun[] }) {
 
   return (
     <div ref={kutuRef} className="relative">
-      <input
-        type="search"
-        value={sorgu}
-        onChange={(e) => {
-          setSorgu(e.target.value);
-          setAcik(true);
-        }}
-        onFocus={() => setAcik(true)}
-        placeholder="Kod veya ad ara..."
-        className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm"
-      />
+      <div className="flex gap-2">
+        <input
+          type="search"
+          value={sorgu}
+          onChange={(e) => {
+            setSorgu(e.target.value);
+            setAcik(true);
+          }}
+          onFocus={() => setAcik(true)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") e.preventDefault();
+          }}
+          placeholder="Kod veya ad ara..."
+          className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
+        />
+        <button
+          type="button"
+          onClick={() => setAcik(true)}
+          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white"
+        >
+          Ara
+        </button>
+      </div>
 
       {acik ? (
         <ul className="absolute z-10 mt-1 max-h-64 w-full overflow-y-auto rounded-md border border-zinc-200 bg-white shadow-lg">
