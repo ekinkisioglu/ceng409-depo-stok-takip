@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
 import { DuzeltmeSatiri } from "@/components/duzeltme-satiri";
 import { createClient } from "@/lib/supabase/server";
@@ -55,6 +56,12 @@ export default async function YonetimPage() {
         <div className="rounded-md border border-zinc-200 bg-white px-4 py-3 text-sm">
           ⏳ Bekleyen Transferler — {bekleyenTransferSayisi ?? 0}
         </div>
+        <Link
+          href="/urun-ekle"
+          className="rounded-md border border-zinc-300 bg-zinc-100 px-4 py-3 text-center text-sm font-medium text-zinc-900"
+        >
+          + Yeni Ürün Ekle
+        </Link>
       </div>
 
       {kritikStoklar.length > 0 ? (

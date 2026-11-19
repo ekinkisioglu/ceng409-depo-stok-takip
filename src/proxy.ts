@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from "next/server";
 // giriş ekranına yönlendirilir. Yönetim Paneli yalnızca Depo Sorumlusu
 // rolüne açıktır (Adım 4 - Rol).
 const ACIK_ROTALAR = ["/", "/kayit-ol"];
-const SORUMLU_ROTALARI = ["/yonetim"];
+const SORUMLU_ROTALARI = ["/yonetim", "/urun-ekle"];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
