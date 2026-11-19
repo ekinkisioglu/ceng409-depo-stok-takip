@@ -69,6 +69,12 @@ export default async function GecmisPage(props: PageProps<"/gecmis">) {
           defaultValue={typeof depo === "string" ? depo : ""}
           className="flex-1 rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />
+        <button
+          type="submit"
+          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white"
+        >
+          Filtrele
+        </button>
       </form>
 
       {error ? <p className="text-sm text-red-600">Hata: {error.message}</p> : null}
