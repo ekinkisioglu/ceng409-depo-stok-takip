@@ -4,7 +4,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-export function TransferForm() {
+export function TransferForm({
+  urunKoduBaslangic = "",
+}: {
+  urunKoduBaslangic?: string;
+}) {
   const router = useRouter();
   const [hata, setHata] = useState<string | null>(null);
   const [basari, setBasari] = useState<string | null>(null);
@@ -49,6 +53,7 @@ export function TransferForm() {
           type="text"
           name="urun_kodu"
           placeholder="P-1001"
+          defaultValue={urunKoduBaslangic}
           required
           className="rounded-md border border-zinc-300 px-3 py-2 text-sm"
         />

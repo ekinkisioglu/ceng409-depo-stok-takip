@@ -17,7 +17,8 @@ type BekleyenTransfer = {
   } | null;
 };
 
-export default async function TransferPage() {
+export default async function TransferPage(props: PageProps<"/transfer">) {
+  const { urun } = await props.searchParams;
   const supabase = await createClient();
 
   const { data } = await supabase
@@ -33,7 +34,7 @@ export default async function TransferPage() {
 
   return (
     <AppShell title="Transfer" backHref="/ana-sayfa">
-      <TransferForm />
+      <TransferForm urunKoduBaslangic={typeof urun === "string" ? urun : ""} />
 
       <h2 className="text-sm font-semibold text-zinc-700">
         Bekleyen Transferler

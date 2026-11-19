@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import { AppShell } from "@/components/app-shell";
 import { createClient } from "@/lib/supabase/client";
 
@@ -21,7 +22,19 @@ const BOS_FORM: FormAlanlari = {
 };
 
 export default function StokCikisPage() {
-  const [form, setForm] = useState<FormAlanlari>(BOS_FORM);
+  return (
+    <Suspense fallback={null}>
+      <StokCikisFormu />
+    </Suspense>
+  );
+}
+
+function StokCikisFormu() {
+  const searchParams = useSearchParams();
+  const [form, setForm] = useState<FormAlanlari>(() => ({
+    ...BOS_FORM,
+    urun_kodu: searchParams.get("urun") ?? "",
+  }));
   const [onayEkraninda, setOnayEkraninda] = useState(false);
   const [idemKey, setIdemKey] = useState<string>(() => crypto.randomUUID());
   const [hata, setHata] = useState<string | null>(null);

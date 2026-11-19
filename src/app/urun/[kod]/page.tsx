@@ -76,21 +76,26 @@ export default async function UrunDetayPage(props: PageProps<"/urun/[kod]">) {
         </ul>
       )}
 
-      <div className="flex gap-2 opacity-40">
-        <span className="flex-1 rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-semibold text-white">
+      <div className="flex gap-2">
+        <Link
+          href={`/stok-giris?urun=${urun.code}`}
+          className="flex-1 rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-semibold text-white"
+        >
           Giriş
-        </span>
-        <span className="flex-1 rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-semibold text-white">
+        </Link>
+        <Link
+          href={`/stok-cikis?urun=${urun.code}`}
+          className="flex-1 rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-semibold text-white"
+        >
           Çıkış
-        </span>
-        <span className="flex-1 rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-semibold text-white">
+        </Link>
+        <Link
+          href={`/transfer?urun=${urun.code}`}
+          className="flex-1 rounded-md bg-zinc-900 px-4 py-2 text-center text-sm font-semibold text-white"
+        >
           Transfer
-        </span>
+        </Link>
       </div>
-      <p className="text-xs text-zinc-400">
-        Giriş/Çıkış/Transfer işlemleri bu ürüne bağlanması Adım 3&apos;te
-        (İşlem) yapılacaktır.
-      </p>
       <Link href="/urun-ara" className="text-sm text-zinc-500 underline">
         Aramaya dön
       </Link>
