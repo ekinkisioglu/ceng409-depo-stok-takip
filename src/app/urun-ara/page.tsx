@@ -9,19 +9,20 @@ export default async function UrunAraPage(props: PageProps<"/urun-ara">) {
   let urunler: { id: string; code: string; name: string; unit: string }[] = [];
   let hata: string | null = null;
 
-  if (sorgu.length > 0) {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("products")
-      .select("id, code, name, unit")
-      .or(`code.ilike.%${sorgu}%,name.ilike.%${sorgu}%`)
-      .order("code");
+  const supabase = await createClient();
+  let dbSorgu = supabase.from("products").select("id, code, name, unit").order("code");
 
-    if (error) {
-      hata = error.message;
-    } else {
-      urunler = data ?? [];
-    }
+  // Arama kutusu boşsa tüm ürünler listelenir (listeden seçilebilir);
+  // yazılırsa kod/ada göre filtrelenir.
+  if (sorgu.length > 0) {
+    dbSorgu = dbSorgu.or(`code.ilike.%${sorgu}%,name.ilike.%${sorgu}%`);
+  }
+
+  const { data, error } = await dbSorgu;
+  if (error) {
+    hata = error.message;
+  } else {
+    urunler = data ?? [];
   }
 
   return (
