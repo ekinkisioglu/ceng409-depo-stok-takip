@@ -89,3 +89,11 @@
 - **AI çıktısı:** `docs/08-test-senaryolari.md` — 19 test senaryosu (istenen 8'in üzerinde), her biri gerçek girdi/beklenen/gerçekleşen sonuç ile.
 - **Ekip kararı:** Kabul edildi. Gerçek telefon/tarayıcı testi dokümanda açıkça "Claude tarafından otomatik doğrulanamaz" olarak işaretlendi — bu adım ekip tarafından tamamlanacak.
 - **Doğrulama:** Eşzamanlılık testi: P-1003/DEPO-A/RAF-3 stoğu tam 10'a sabitlendi, aynı anda 6+6 (12 > 10) birim çıkış isteği gönderildi. İstek A 0.41s'de bitip 10→4 başarılı oldu; İstek B 0.45s'de bitip güncel (4) miktarı görerek "Yetersiz stok: mevcut 4, girilen 6" ile reddedildi. Nihai stok 4 — negatif stok veya çift düşüş oluşmadığı doğrulandı. Ayrıca yanlış şifreyle giriş denemesi gerçekten çalıştırılıp `invalid_credentials` hatası teyit edildi.
+
+## Kayıt 12 — Ürün Ekle ekranı (ekip testi sırasında istenen ek özellik)
+
+- **Araç / amaç:** Claude — canlı sitede manuel test yaparken kullanıcı yeni ürün ekleme ihtiyacı fark etti; çekirdek kapsamda olmayan ama kullanışlı bir özellik olarak eklendi.
+- **İstem özeti:** Depo Sorumlusu'na özel bir "Ürün Ekle" ekranı ve buna karşılık gelen `ekle_urun` fonksiyonu istendi (rol kontrolü + tekrarlı kod reddi dahil).
+- **AI çıktısı:** `/urun-ekle` sayfası (yalnızca Depo Sorumlusu, `proxy.ts`'e eklenen rota koruması ile), Yönetim Paneli'nden link, `supabase/migrations/0007_urun_ekle.sql`.
+- **Ekip kararı:** Kabul edildi.
+- **Doğrulama:** REST üzerinden üç senaryo: Depo Personeli reddedildi, Depo Sorumlusu başarılı şekilde P-1004 ekledi, aynı kodun tekrar eklenmesi reddedildi. Yeni ürünün Ürün Ara ekranında göründüğü ve canlı sitede `/urun-ekle` rotasının rol bazlı doğru şekilde (Personel: 307, Sorumlu: 200) korunduğu doğrulandı.
