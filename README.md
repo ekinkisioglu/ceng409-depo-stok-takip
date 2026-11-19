@@ -10,7 +10,7 @@ Pamukkale Üniversitesi Endüstri Mühendisliği, CENG 409 Sistem Analizi ve Tas
 
 ## Durum
 
-Adım 1-5 tamamlandı: giriş/kayıt, ürün arama/detay, stok girişi/çıkışı/transfer, sayım/düzeltme onayı, rol+depo bazlı yetkilendirme, hareket geçmişi ve Yönetim Paneli gerçek Supabase verisiyle uçtan uca çalışıyor. 7 kötü/alternatif durum (S1,S2,S5,S7,S8,S9,S11) güvenli biçimde ele alınmış durumda. Sırada Adım 6 (Doğrulama: mobil test, test senaryoları tablosu) var. Geliştirme sırası için bkz. `docs/00-kritik-kurallar-checklist.md`.
+Adım 1-6 tamamlandı: giriş/kayıt, ürün arama/detay, stok girişi/çıkışı/transfer, sayım/düzeltme onayı, rol+depo bazlı yetkilendirme, hareket geçmişi ve Yönetim Paneli gerçek Supabase verisiyle uçtan uca çalışıyor. 7 kötü/alternatif durum (S1,S2,S5,S7,S8,S9,S11) güvenli biçimde ele alınmış, 19 test senaryosu (eşzamanlılık dahil) çalıştırılmış durumda — bkz. `docs/08-test-senaryolari.md`. Kalan: gerçek telefon testi ve öğretim elemanı erişimi (ekip tarafından yapılacak). Geliştirme sırası için bkz. `docs/00-kritik-kurallar-checklist.md`.
 
 ## Kurulum / Çalıştırma
 

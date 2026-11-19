@@ -56,7 +56,7 @@
 | 3 | İşlem | ✅ Stok girişi ve çıkışı uçtan uca çalışıyor (atomik, S2+S5 kontrollü) |
 | 4 | Rol | ✅ İki kullanıcı rolünün erişim farkı (depo bazlı + Yönetim Paneli) uygulandı |
 | 5 | İstisna | ✅ 7 kötü/alternatif durum güvenli biçimde ele alındı (S1,S2,S5,S7,S8,S9,S11) |
-| 6 | Doğrulama | 🔄 Sırada — mobil test, test senaryoları tablosu, son kontroller |
+| 6 | Doğrulama | ✅ 19 test senaryosu (eşzamanlılık dahil) çalıştırıldı; gerçek cihaz testi ekip tarafından yapılacak |
 
 **Önemli:** Her adım bir öncekini çalışır halde bırakmalı — "önce hepsini kodla sonra test et" YAKLAŞIMI KULLANILMAYACAK.
 
@@ -81,7 +81,7 @@
 - [ ] Stok giriş/çıkış/transfer kalıcı veritabanına yazılıyor
 - [ ] Uygulama kapat-aç sonrası veri korunuyor
 - [x] En az 4 kötü/alternatif durum canlı uygulamada gösterilebiliyor (S1,S2,S5,S7,S8,S9,S11)
-- [ ] En az 8 test senaryosunun beklenen/gerçekleşen sonucu raporda var
+- [x] En az 8 test senaryosunun beklenen/gerçekleşen sonucu raporda var — 19 senaryo, bkz. `docs/08-test-senaryolari.md`
 - [ ] GitHub deposunda veya istemci kodunda gizli/secret/tam yetkili anahtar YOK
 - [ ] AI Development Log en az 5 önemli etkileşimi ve ekip doğrulamasını içeriyor
 - [ ] Ekipteki herhangi bir üye veri modelini, iş kurallarını ve teknoloji akışını açıklayabiliyor
