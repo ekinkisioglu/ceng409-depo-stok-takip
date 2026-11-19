@@ -5,7 +5,7 @@
 ## A. Kapsam ve Varsayımlar (Bölüm 3)
 
 **Kapsam içi — asgari, atlanamaz:**
-- [ ] Kullanıcı girişi + en az 2 rol (Depo Personeli, Depo Sorumlusu) — *giriş çalışıyor, rol ayrımı Adım 4'te*
+- [x] Kullanıcı girişi + en az 2 rol (Depo Personeli, Depo Sorumlusu) — rol ayrımı ve depo bazlı yetki fiilen çalışıyor
 - [x] Ürün kartı + kod/ad ile arama (barkod/karekod **zorunlu değil**, isteğe bağlı)
 - [x] Stok girişi, stok çıkışı
 - [ ] Depo/raf transferi
@@ -27,7 +27,7 @@
 
 - [ ] Uygulama telefon/tablet ekranında kullanılabilir — *mobil genişlikte tasarlandı, gerçek cihaz testi Adım 6'da*
 - [x] Gerçek, kalıcı veritabanı; kapat-aç sonrası veri korunuyor
-- [ ] En az 2 kullanıcı rolü + rol bazlı yetkilendirme fiilen çalışıyor — *Adım 4*
+- [x] En az 2 kullanıcı rolü + rol bazlı yetkilendirme fiilen çalışıyor (2 test hesabıyla doğrulandı: canlıda ve veritabanı seviyesinde)
 - [ ] Stok girişi + çıkışı + transfer **uçtan uca** çalışıyor (demo edilebilir) — *giriş+çıkış tamam, transfer eksik*
 - [x] Kritik iş kuralları ve veri doğrulama kontrolleri uygulanmış (S2 yetersiz stok, oturum kontrolü — veritabanı tarafında)
 - [ ] En az 4 kötü/alternatif durum **çalışan uygulamada gerçekten** ele alınmış (sadece raporda değil!) — *şu an S2 ve oturum kontrolü (S9 benzeri); Adım 5'te tamamlanacak*
@@ -54,7 +54,7 @@
 | 1 | İskelet | ✅ Canlı URL açılıyor, boş ana ekran + temel gezinme çalışıyor (yerel; Vercel bağlantısı Adım 6) |
 | 2 | Veri | ✅ Ürün/stok verisi kalıcı veritabanından okunuyor |
 | 3 | İşlem | ✅ Stok girişi ve çıkışı uçtan uca çalışıyor (atomik, S2+S5 kontrollü) |
-| 4 | Rol | 🔄 Sırada — iki kullanıcı rolünün erişim farkı uygulanacak |
+| 4 | Rol | ✅ İki kullanıcı rolünün erişim farkı (depo bazlı + Yönetim Paneli) uygulandı |
 | 5 | İstisna | ⏳ En az 4 kötü/alternatif durum güvenli biçimde ele alınacak |
 | 6 | Doğrulama | ⏳ Mobil test, test senaryoları, README, canlı demo tamamlanacak |
 
@@ -77,7 +77,7 @@
 
 - [ ] Canlı URL öğretim elemanının cihazından açılıyor
 - [ ] GitHub deposu erişilebilir; README ve anlamlı commit geçmişi mevcut
-- [ ] Test hesabı çalışıyor; en az 2 rolün yetkileri gerçekten farklı
+- [x] Test hesabı çalışıyor; en az 2 rolün yetkileri gerçekten farklı
 - [ ] Stok giriş/çıkış/transfer kalıcı veritabanına yazılıyor
 - [ ] Uygulama kapat-aç sonrası veri korunuyor
 - [ ] En az 4 kötü/alternatif durum canlı uygulamada gösterilebiliyor
