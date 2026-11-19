@@ -2,8 +2,10 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Giriş yapılmamış kullanıcı korumalı rotalara erişmeye çalışırsa
-// giriş ekranına yönlendirilir. Rol bazlı kısıtlama Adım 4'te eklenecektir.
+// giriş ekranına yönlendirilir. Yönetim Paneli yalnızca Depo Sorumlusu
+// rolüne açıktır (Adım 4 - Rol).
 const ACIK_ROTALAR = ["/", "/kayit-ol"];
+const SORUMLU_ROTALARI = ["/yonetim"];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -35,6 +37,20 @@ export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
+  }
+
+  if (data.user && SORUMLU_ROTALARI.includes(request.nextUrl.pathname)) {
+    const { data: profil } = await supabase
+      .from("users")
+      .select("role")
+      .eq("id", data.user.id)
+      .maybeSingle();
+
+    if (profil?.role !== "depo_sorumlusu") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/ana-sayfa";
+      return NextResponse.redirect(url);
+    }
   }
 
   return response;

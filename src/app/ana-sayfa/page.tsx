@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AppShell } from "@/components/app-shell";
+import { createClient } from "@/lib/supabase/server";
 
 const islemler = [
   { href: "/urun-ara", label: "Ürün Ara" },
@@ -10,11 +11,38 @@ const islemler = [
   { href: "/gecmis", label: "Stok Sorgula / Geçmiş" },
 ];
 
-export default function AnaSayfaPage() {
+const ROL_ETIKETI: Record<string, string> = {
+  depo_personeli: "Depo Personeli",
+  depo_sorumlusu: "Depo Sorumlusu",
+};
+
+export default async function AnaSayfaPage() {
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getUser();
+
+  let adSoyad = auth.user?.email ?? "";
+  let rol = "";
+
+  if (auth.user) {
+    const { data: profil } = await supabase
+      .from("users")
+      .select("full_name, role")
+      .eq("id", auth.user.id)
+      .maybeSingle();
+
+    if (profil) {
+      adSoyad = profil.full_name;
+      rol = profil.role;
+    }
+  }
+
   return (
     <AppShell title="Ana Ekran">
       <p className="text-sm text-zinc-500">
-        Merhaba — rol: <span className="font-medium">Depo Personeli</span>
+        Merhaba, {adSoyad} — rol:{" "}
+        <span className="font-medium">
+          {ROL_ETIKETI[rol] ?? "bilinmiyor"}
+        </span>
       </p>
 
       <nav className="flex flex-col gap-2">
@@ -27,12 +55,14 @@ export default function AnaSayfaPage() {
             {islem.label}
           </Link>
         ))}
-        <Link
-          href="/yonetim"
-          className="rounded-md border border-dashed border-zinc-300 px-4 py-3 text-sm font-medium text-zinc-500"
-        >
-          Yönetim Paneli (Depo Sorumlusu)
-        </Link>
+        {rol === "depo_sorumlusu" ? (
+          <Link
+            href="/yonetim"
+            className="rounded-md border border-zinc-300 bg-zinc-100 px-4 py-3 text-sm font-medium text-zinc-900"
+          >
+            Yönetim Paneli
+          </Link>
+        ) : null}
       </nav>
     </AppShell>
   );
