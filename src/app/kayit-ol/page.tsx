@@ -49,7 +49,7 @@ export default function KayitOlPage() {
   }
 
   return (
-    <AppShell title="Kayıt Ol" backHref="/">
+    <AppShell title="Kayıt Ol" backHref="/" cikisGoster={false}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <label className="flex flex-col gap-1 text-sm font-medium text-zinc-700">
           Ad Soyad

@@ -1,12 +1,19 @@
 import Link from "next/link";
+import { CikisButonu } from "@/components/cikis-butonu";
 
 type AppShellProps = {
   title: string;
   backHref?: string;
+  cikisGoster?: boolean;
   children: React.ReactNode;
 };
 
-export function AppShell({ title, backHref, children }: AppShellProps) {
+export function AppShell({
+  title,
+  backHref,
+  cikisGoster = true,
+  children,
+}: AppShellProps) {
   return (
     <div className="flex flex-1 justify-center">
       <div className="flex w-full max-w-sm flex-col">
@@ -20,7 +27,10 @@ export function AppShell({ title, backHref, children }: AppShellProps) {
               ←
             </Link>
           ) : null}
-          <h1 className="text-base font-semibold text-zinc-900">{title}</h1>
+          <h1 className="flex-1 text-base font-semibold text-zinc-900">
+            {title}
+          </h1>
+          {cikisGoster ? <CikisButonu /> : null}
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4">{children}</main>
       </div>

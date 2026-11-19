@@ -38,7 +38,7 @@ export default function GirisPage() {
   }
 
   return (
-    <AppShell title="Depo Stok Takip">
+    <AppShell title="Depo Stok Takip" cikisGoster={false}>
       <p className="text-sm text-zinc-500">
         CENG 409 - Mobil Depo ve Stok Takip Sistemi
       </p>
